@@ -32,7 +32,7 @@ CREATE TABLE `auditoria` (
   PRIMARY KEY (`id_auditoria`),
   KEY `id_usuario_admin` (`id_usuario_admin`),
   CONSTRAINT `auditoria_ibfk_1` FOREIGN KEY (`id_usuario_admin`) REFERENCES `usuarios` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `auditoria` (
 
 LOCK TABLES `auditoria` WRITE;
 /*!40000 ALTER TABLE `auditoria` DISABLE KEYS */;
-INSERT INTO `auditoria` VALUES (1,1,'Cambio de estado a Aprobado','Comercios',1,'2026-09-23 17:01:57');
+INSERT INTO `auditoria` VALUES (1,1,'Cambio de estado a Aprobado','Comercios',1,'2026-09-23 17:01:57'),(2,1,'Cambio de estado a Aprobado','Comercios',2,'2026-10-07 19:14:21');
 /*!40000 ALTER TABLE `auditoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +93,7 @@ CREATE TABLE `comercios` (
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `comercios_ibfk_1` FOREIGN KEY (`id_usuario_propietario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE,
   CONSTRAINT `comercios_ibfk_2` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +102,7 @@ CREATE TABLE `comercios` (
 
 LOCK TABLES `comercios` WRITE;
 /*!40000 ALTER TABLE `comercios` DISABLE KEYS */;
-INSERT INTO `comercios` VALUES (1,'Bar','Licores','Cra111#111a11','3123456787',1,4,'Aprobado','2026-09-23 17:00:02');
+INSERT INTO `comercios` VALUES (1,'Bar','Licores','Cra111#111a11','3123456787',1,4,'Aprobado','2026-09-23 17:00:02'),(2,'Discoteca','Música y fiestas','Tv-12#9.3','3123456787',3,4,'Aprobado','2026-10-07 19:14:02');
 /*!40000 ALTER TABLE `comercios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +127,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (4,'Due├▒o de Comercio'),(2,'Dueño de Comercio'),(1,'Superadministrador'),(3,'Usuario Final');
+INSERT INTO `roles` VALUES (2,'Dueño de Comercio'),(1,'Superadministrador'),(3,'Usuario Final');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +184,7 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `email` (`email`),
   KEY `id_rol` (`id_rol`),
   CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,7 +193,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Superadministrador','admin','$2y$10$dKJTPNrI6iGx1GzPPAlvHO4Mdhd3EOWzLhUs1F7S/U9fyiFFry8kO',1,'2026-09-23 16:53:01',1);
+INSERT INTO `usuarios` VALUES (1,'Superadministrador','admin','$2y$10$dKJTPNrI6iGx1GzPPAlvHO4Mdhd3EOWzLhUs1F7S/U9fyiFFry8kO',1,'2026-09-23 16:53:01',1),(2,'Sergio','sergio.rodriguezr@cun.edu.co','$2y$10$uSDtKEXX7uv40NiwZVZZlujUavJR2zM5a4AWV3HWTwjOHbWPt0CLi',3,'2026-10-07 19:08:16',1),(3,'Parra','sergio.parrai@cun.edu.co','$2y$10$j/IvxL7/VpWGCWpz42wKNeli.T78UySaWOdtUKgzPvdcpySulUqM2',2,'2026-10-07 19:08:58',1),(5,'Santiago','david.forerog@cun.edu.co','$2y$10$nnmwnal.N3hnlYJ0UNmH2OR0sZzcwak2uV49OutcN3hz982qRH.fi',1,'2026-10-07 19:11:41',1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -206,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-07 18:44:56
+-- Dump completed on 2026-10-07 19:14:27

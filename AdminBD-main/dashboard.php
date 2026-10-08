@@ -5,8 +5,36 @@ if (!isset($_SESSION['usuario_id'])) {
     exit();
 }
 require 'includes/db.php';
+require_once 'includes/backup_helper.php';
 
-require 'includes/db.php';
+$backup_file = __DIR__ . '/database_backup.sql';
+$mensaje_backup = '';
+$tipo_alerta = '';
+
+// Procesar acciones de backup para Superadministrador (Rol 1)
+if ($_SESSION['usuario_rol'] == 1 && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['accion_backup'])) {
+        if ($_POST['accion_backup'] === 'exportar') {
+            $resultado = exportar_base_datos($pdo, $backup_file);
+            if ($resultado['status']) {
+                $mensaje_backup = "¡Copia de seguridad guardada con éxito en <strong>database_backup.sql</strong>! Se han guardado todos los datos actuales de comercios, categorías, usuarios y auditoría.";
+                $tipo_alerta = 'success';
+            } else {
+                $mensaje_backup = "Error al generar la copia: " . $resultado['mensaje'];
+                $tipo_alerta = 'danger';
+            }
+        } elseif ($_POST['accion_backup'] === 'importar') {
+            $resultado = importar_base_datos($pdo, $backup_file);
+            if ($resultado['status']) {
+                $mensaje_backup = "¡Base de datos restaurada con éxito desde <strong>database_backup.sql</strong>!";
+                $tipo_alerta = 'success';
+            } else {
+                $mensaje_backup = "Error al restaurar: " . $resultado['mensaje'];
+                $tipo_alerta = 'danger';
+            }
+        }
+    }
+}
 
 // Obtener datos resumidos para el Superadministrador (Rol 1)
 $estadisticas = [
@@ -29,6 +57,8 @@ if ($_SESSION['usuario_rol'] == 1) {
         // Ignorar error por ahora en el dashboard
     }
 }
+
+$info_backup = obtener_info_backup($backup_file);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -94,6 +124,25 @@ if ($_SESSION['usuario_rol'] == 1) {
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border-color);
         }
+        .alert-banner {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.95rem;
+        }
+        .alert-banner.success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+        }
+        .alert-banner.danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
     </style>
 </head>
 <body>
@@ -110,7 +159,8 @@ if ($_SESSION['usuario_rol'] == 1) {
                 <?php if ($_SESSION['usuario_rol'] == 1): ?>
                 <li><a href="comercios.php">🏪 Gestionar Comercios</a></li>
                 <li><a href="#">🏖️ Aprobar Turismo</a></li>
-                <li><a href="#">👥 Usuarios y Roles</a></li>
+                <li><a href="usuarios.php">👥 Usuarios y Roles</a></li>
+                <li><a href="#backup-card">💾 Copia de Seguridad</a></li>
                 <?php else: ?>
                 <li><a href="comercios.php">🏪 Mis Negocios</a></li>
                 <?php endif; ?>
@@ -132,6 +182,12 @@ if ($_SESSION['usuario_rol'] == 1) {
                 </div>
             </div>
 
+            <?php if (!empty($mensaje_backup)): ?>
+            <div class="alert-banner <?php echo $tipo_alerta; ?>">
+                <div><?php echo $mensaje_backup; ?></div>
+            </div>
+            <?php endif; ?>
+
             <?php if ($_SESSION['usuario_rol'] == 1): ?>
             <h3>Alertas Pendientes</h3>
             <div class="stat-grid">
@@ -148,11 +204,53 @@ if ($_SESSION['usuario_rol'] == 1) {
                     <div class="stat-number"><?php echo $estadisticas['total_usuarios']; ?></div>
                 </div>
             </div>
+
+            <!-- Panel de Copia de Seguridad Integrado -->
+            <div class="glass-panel" id="backup-card" style="margin-top: 2.5rem; padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            💾 Copia y Sincronización de Base de Datos
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 620px; line-height: 1.5;">
+                            Actualiza el archivo <code>database_backup.sql</code> con todos los datos actuales (comercios, usuarios, categorías, etc.) para sincronizar con otros equipos a través de GitHub.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(15, 23, 42, 0.6); padding: 0.9rem 1.4rem; border-radius: 12px; border: 1px solid var(--border-color); font-size: 0.88rem;">
+                        <div><span style="color: var(--text-muted);">Archivo:</span> <code style="color: #818cf8;">database_backup.sql</code></div>
+                        <div style="margin-top: 0.35rem;"><span style="color: var(--text-muted);">Último respaldo:</span> <strong><?php echo $info_backup['fecha']; ?></strong></div>
+                        <div style="margin-top: 0.35rem;"><span style="color: var(--text-muted);">Tamaño:</span> <strong><?php echo $info_backup['tamano']; ?></strong></div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                    <form method="POST" style="margin: 0;">
+                        <input type="hidden" name="accion_backup" value="exportar">
+                        <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                            💾 Guardar Datos Actuales en el Archivo
+                        </button>
+                    </form>
+
+                    <form method="POST" style="margin: 0;" onsubmit="return confirm('¿Deseas restaurar la base de datos desde database_backup.sql? Esto reemplazará los datos actuales con los del archivo.');">
+                        <input type="hidden" name="accion_backup" value="importar">
+                        <button type="submit" class="btn" style="background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-color); color: var(--text-main); display: inline-flex; align-items: center; gap: 0.5rem;">
+                            📥 Cargar Datos desde el Archivo
+                        </button>
+                    </form>
+                </div>
+
+                <div style="margin-top: 1.5rem; padding: 0.85rem 1.1rem; border-radius: 8px; background: rgba(79, 70, 229, 0.1); border-left: 4px solid var(--primary-color); font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">
+                    💡 <strong>¿Cómo compartir los cambios?</strong>
+                    Al dar clic en <em>"Guardar Datos Actuales en el Archivo"</em>, el archivo <code>database_backup.sql</code> se actualizará inmediatamente con todos los comercios y usuarios actuales. Solo debes hacer commit y push a GitHub para que tus compañeros reciban todo.
+                </div>
+            </div>
+
             <?php else: ?>
             <div class="glass-panel" style="padding: 2rem; margin-top: 2rem; text-align: center;">
                 <h3 style="margin-bottom: 1rem;">Bienvenido a tu panel de control</h3>
                 <p style="color: var(--text-muted);">Aún no tienes establecimientos registrados. ¡Empieza creando tu primer comercio!</p>
-                <button class="btn btn-primary" style="margin-top: 1.5rem;">+ Crear Comercio</button>
+                <a href="crear_comercio.php" class="btn btn-primary" style="margin-top: 1.5rem;">+ Crear Comercio</a>
             </div>
             <?php endif; ?>
 
