@@ -176,7 +176,7 @@ $info_backup = obtener_info_backup($backup_file);
                     <p style="color: var(--text-muted);">Bienvenido al sistema de administración.</p>
                 </div>
                 <div>
-                    <span style="background: var(--primary-color); padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
+                    <span style="background: var(--primary-color); color: #8A3B08; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
                         <?php echo ($_SESSION['usuario_rol'] == 1) ? 'Superadministrador' : 'Proveedor'; ?>
                     </span>
                 </div>
@@ -217,8 +217,8 @@ $info_backup = obtener_info_backup($backup_file);
                         </p>
                     </div>
 
-                    <div style="background: rgba(15, 23, 42, 0.6); padding: 0.9rem 1.4rem; border-radius: 12px; border: 1px solid var(--border-color); font-size: 0.88rem;">
-                        <div><span style="color: var(--text-muted);">Archivo:</span> <code style="color: #818cf8;">database_backup.sql</code></div>
+                    <div style="background: rgba(255, 255, 255, 0.7); padding: 0.9rem 1.4rem; border-radius: 12px; border: 1px solid var(--border-color); font-size: 0.88rem;">
+                        <div><span style="color: var(--text-muted);">Archivo:</span> <code style="color: #8A3B08;">database_backup.sql</code></div>
                         <div style="margin-top: 0.35rem;"><span style="color: var(--text-muted);">Último respaldo:</span> <strong><?php echo $info_backup['fecha']; ?></strong></div>
                         <div style="margin-top: 0.35rem;"><span style="color: var(--text-muted);">Tamaño:</span> <strong><?php echo $info_backup['tamano']; ?></strong></div>
                     </div>

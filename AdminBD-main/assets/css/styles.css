@@ -6,15 +6,15 @@
 
 :root {
     /* Color Palette - Premium Modern */
-    --primary-color: #4F46E5; /* Indigo */
-    --primary-hover: #4338CA;
-    --secondary-color: #10B981; /* Emerald for success/tourism */
+    --primary-color: #E59D2C; /* Oro */
+    --primary-hover: #CC8A24; /* Oro oscuro para hover */
+    --secondary-color: #F3D58D; /* Mantequilla */
     --accent-color: #F59E0B; /* Amber for pending/warnings */
-    --bg-dark: #0F172A; /* Slate 900 */
-    --bg-card: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
-    --text-main: #F8FAFC; /* Slate 50 */
-    --text-muted: #94A3B8; /* Slate 400 */
-    --border-color: rgba(255, 255, 255, 0.1);
+    --bg-main: #EBDDC5; /* Perla (Fondo) */
+    --bg-card: rgba(255, 255, 255, 0.6); /* Tarjetas claras translúcidas */
+    --text-main: #2E4365; /* Azul (Textos) */
+    --text-muted: #5A6D8A; /* Azul claro (Textos secundarios) */
+    --border-color: rgba(46, 67, 101, 0.15); /* Bordes azul translúcido */
     
     /* Utilities */
     --glass-blur: blur(16px);
@@ -30,13 +30,13 @@
 }
 
 body {
-    background-color: var(--bg-dark);
+    background-color: var(--bg-main);
     color: var(--text-main);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    /* Premium background gradient */
-    background: radial-gradient(circle at top right, #1e1b4b, var(--bg-dark) 50%);
+    /* Premium background gradient adapted for light mode */
+    background: radial-gradient(circle at top right, #fcf8f0, var(--bg-main) 60%);
     background-attachment: fixed;
 }
 
@@ -46,6 +46,7 @@ body {
 h1, h2, h3, h4 {
     font-weight: 700;
     letter-spacing: -0.02em;
+    color: #8A3B08; /* Cafe */
 }
 
 a {
@@ -67,7 +68,7 @@ a:hover {
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(46, 67, 101, 0.15); /* Sombra azul claro en lugar de negro profundo */
 }
 
 /* ==========================================================================
@@ -88,7 +89,7 @@ a:hover {
 .form-input {
     width: 100%;
     padding: 0.75rem 1rem;
-    background: rgba(15, 23, 42, 0.6);
+    background: rgba(255, 255, 255, 0.7);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     color: var(--text-main);
@@ -99,7 +100,7 @@ a:hover {
 
 .form-input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    box-shadow: 0 0 0 3px rgba(229, 157, 44, 0.2); /* Sombra oro */
 }
 
 .btn {
@@ -123,7 +124,7 @@ a:hover {
 .btn-primary:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4);
+    box-shadow: 0 10px 15px -3px rgba(229, 157, 44, 0.4); /* Sombra oro */
 }
 
 /* ==========================================================================
@@ -148,7 +149,7 @@ a:hover {
     font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, #818cf8, #c084fc);
+    background: linear-gradient(135deg, #8A3B08, #E59D2C); /* Cafe a Oro */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }

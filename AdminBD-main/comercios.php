@@ -42,9 +42,9 @@ try {
         th, td { padding: 1rem; border-bottom: 1px solid var(--border-color); }
         th { color: var(--text-muted); font-weight: 600; }
         .badge { padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; }
-        .badge-pendiente { background: rgba(245, 158, 11, 0.2); color: var(--accent-color); }
-        .badge-aprobado { background: rgba(16, 185, 129, 0.2); color: var(--secondary-color); }
-        .badge-rechazado { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .badge-pendiente { background: rgba(243, 213, 141, 0.6); color: #8A3B08; } /* Mantequilla y Cafe */
+        .badge-aprobado { background: rgba(229, 157, 44, 0.3); color: #8A3B08; } /* Oro y Cafe */
+        .badge-rechazado { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
     </style>
 </head>
 <body>

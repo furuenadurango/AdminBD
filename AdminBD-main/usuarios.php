@@ -184,7 +184,7 @@ $usuarios = $stmt_usuarios->fetchAll();
                                 <td><?php echo htmlspecialchars($u->nombre); ?></td>
                                 <td><?php echo htmlspecialchars($u->email); ?></td>
                                 <td>
-                                    <span style="background: rgba(79, 70, 229, 0.2); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.85rem; color: #a5b4fc;">
+                                    <span style="background: rgba(229, 157, 44, 0.2); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.85rem; color: #8A3B08; font-weight: 600;">
                                         <?php echo htmlspecialchars($u->rol_nombre); ?>
                                     </span>
                                 </td>

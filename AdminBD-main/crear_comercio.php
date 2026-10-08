@@ -61,7 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
         
         .form-container { max-width: 600px; padding: 2rem; }
-        select.form-input { appearance: auto; background-color: rgba(15, 23, 42, 0.8); }
+        select.form-input { appearance: auto; background-color: rgba(255, 255, 255, 0.7); color: var(--text-main); }
+        select.form-input option { background-color: #fff; color: #2E4365; }
         textarea.form-input { resize: vertical; min-height: 100px; }
     </style>
 </head>
